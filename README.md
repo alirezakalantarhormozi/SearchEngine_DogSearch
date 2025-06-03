@@ -5,7 +5,7 @@ A full-stack search engine that combines **web crawling**, **machine learning**,
 > 📌 *Originally developed between **July – August 2022** during my studies, this was one of my first full-stack and ML-integrated projects. It helped me deeply understand how search engines work under the hood — from data collection to classification.*
 
 ---
-
+![Alt text](DogSearch.png)
 ## 🚀 Features
 
 - 🧵 **Multi-threaded Web Crawler** (optional): Extracts content from various dog-related web pages.
