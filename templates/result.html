@@ -1,0 +1,459 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
+    <!--  All snippets are MIT license http://bootdey.com/license -->
+    <title>Search users page result - Bootdey.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link href="{% static 'search/css/main.css' %}" rel="stylesheet" />
+</head>
+<body>
+
+<div class="container">
+    <div class="s131">
+      <form method="GET" action="{% url 'result' %}">
+        <div class="inner-form">
+          <div class="input-field first-wrap">
+            <div class="svg-wrapper">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+              </svg>
+            </div>
+            <input id="search" name="query" type="text" placeholder="What are you looking for?" />
+          </div>
+          <div class="input-field second-wrap">
+            <button class="btn-search" type="submit">SEARCH</button>
+          </div>
+        </div>
+        <span class="info">ex. Game, Music, Video, Photography</span>
+      </form>
+    </div>
+{% if noacure %}
+<div class="alert alert-warning" role="alert">
+  No result so we search synonyms word as {{ synonymsstring }}
+</div>
+{% endif %}
+<div class="row ng-scope">
+    <div class="col-md-3 col-md-push-9 back">
+        <h4>Results <span class="fw-semi-bold">Filtering</span></h4>
+        <p class="text-muted fs-mini" style="color: #264b5d ">Listed content is categorized by the following groups:</p>
+        <ul class="nav nav-pills nav-stacked search-result-categories mt">
+            <li id="id-Artificial-Intelligence"><a href="#" onclick="filter('Artificial Intelligence');return false;">Artificial Intelligence </a>
+            </li>
+            <li id="id-Graphical-visualization"><a href="#" onclick="filter('Graphical visualization');return false;">Graphical visualization </a>
+            </li>
+            <li id="id-Software-Engineering"><a href="#" onclick="filter('Software Engineering');return false;">Software Engineering</a>
+            </li>
+            <li id="id-Architecture-And-OS"><a href="#" onclick="filter('Architecture And OS');return false;">Architecture And OS</a>
+            </li>
+            <li id="id-Network"><a href="#" onclick="filter('Network');return false;">Network {#  <span class="badge">18</span> #}</a>
+            </li>
+            <li id="id-Database"><a href="#" onclick="filter('Database');return false;">Database</a>
+            </li>
+            <li id="id-Data-Structure-And-Algorithm"><a href="#" onclick="filter('Data Structure And Algorithm');return false;">Data Structure And Algorithm</a>
+            </li>
+            <li id="id-All" ><a href="#" onclick="filter('All');return false;">All</a>
+            </li>
+        </ul>
+
+    </div>
+    <div class="col-md-9 col-md-pull-3">
+        <p class="search-results-count">About {{ lenresult }} ( {{ resulttime }} sec.) results</p>
+
+        {% for site in sites %}
+        <section class="search-result-item">
+            {% if site.class_field == 0  %}
+                <a class="image-link" href="#"><img alt="class image" class="image" src="{% static 'search/images/o.png' %}"></a>
+            {% elif site.class_field == 1 %}
+                <a class="image-link" href="#"><img alt="class image" class="image" src="{% static 'search/images/o.png' %}"></a>
+            {% elif site.class_field == 2 %}
+                <a class="image-link" href="#"><img alt="class image" class="image" src="{% static 'search/images/o.png' %}"></a>
+            {% elif site.class_field == 3 %}
+                <a class="image-link" href="#"><img alt="class image" class="image" src="{% static 'search/images/o.png' %}"></a>
+            {% elif site.class_field == 4 %}
+                <a class="image-link" href="#"><img alt="class image" class="image" src="{% static 'search/images/o.png' %}"></a>
+            {% elif site.class_field == 5 %}
+                <a class="image-link" href="#"><img alt="class image" class="image" src="{% static 'search/images/o.png' %}"></a>
+            {% elif site.class_field == 6 %}
+                <a class="image-link" href="#"><img alt="class image" class="image" src="{% static 'search/images/o.png' %}"></a>
+            {% endif %}
+
+            <div class="search-result-item-body">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <h4 class="search-result-item-heading"><a href="{{ site.url }}">{{ site.title }}</a></h4>
+                        <p class="info">{{ site.url }}</p>
+                        <p class="description">{{ site.first_par }}</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        {% endfor %}
+        <div class="text-align-center">
+            <ul class="pagination pagination-sm">
+                <li><a onclick="prev();return false;" href="#">Prev</a>
+                </li>
+                {% for i in lenthofsites %}
+{#                    {% if forloop.counter < 5 %}#}
+                        <li id='pageId-{{i}}'><a  href="#" onclick="pagination({{ i }});return false;">{{ i }} </a>
+                        </li>
+{#                    {% endif %}#}
+                {% endfor %}
+                <li ><a onclick="next();return false;" href="#" >Next</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+</div>
+
+<style type="text/css">
+
+body{
+    background: url("../static/search/images/Searchs_130.png");
+    background-position: bottom right;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100%;
+}
+
+.search-result-categories>li>a {
+    color: #222;
+    font-weight: 400
+}
+
+.search-result-categories>li>a:hover {
+    background-color: #00ad5f80;
+    color: #222
+}
+
+.search-result-categories>li>a>.glyphicon {
+    margin-right: 5px
+}
+
+.search-result-categories>li>a>.badge {
+    float: right
+}
+
+.search-results-count {
+    margin-top: 10px
+}
+
+.search-result-item {
+    padding: 20px;
+    background-color: #00ad5f80;
+    border-radius: 4px
+}
+
+.search-result-item:after,
+.search-result-item:before {
+    content: " ";
+    display: table
+}
+
+.search-result-item:after {
+    clear: both
+}
+
+.search-result-item .image-link {
+    display: block;
+    overflow: hidden;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px
+}
+
+@media (min-width:768px) {
+    .search-result-item .image-link {
+        display: inline-block;
+        margin: -20px 0 -20px -20px;
+        float: left;
+        width: 200px
+    }
+}
+
+@media (max-width:767px) {
+    .search-result-item .image-link {
+        max-height: 200px
+    }
+}
+
+.search-result-item .image {
+    max-width: 100%
+}
+
+.search-result-item .info {
+    margin-top: 2px;
+    font-size: 12px;
+    color: #264b5d
+}
+
+.search-result-item .description {
+    font-size: 13px
+}
+
+.search-result-item+.search-result-item {
+    margin-top: 20px
+}
+
+@media (min-width:768px) {
+    .search-result-item-body {
+        margin-left: 200px
+    }
+}
+
+.search-result-item-heading {
+    font-weight: 400
+}
+
+.search-result-item-heading>a {
+    color: #555
+}
+
+@media (min-width:768px) {
+    .search-result-item-heading {
+        margin: 0
+    }
+}
+{# con #}
+
+
+.s131 form {
+  width: 100%;
+  max-width: 790px;
+  padding-top: 1vh;
+}
+
+.s131 form .inner-form {
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  -ms-flex-align: center;
+      align-items: center;
+  box-shadow: 0px 8px 20px 0px rgba(0, 0, 0, 0.15);
+  border-radius: 34px;
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+
+.s131 form .inner-form .input-field {
+  height: 68px;
+}
+
+.s131 form .inner-form .input-field input {
+  height: 100%;
+  background: transparent;
+  border: 0;
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #000;
+}
+
+.s131 form .inner-form .input-field input.placeholder {
+  color: #222;
+  font-size: 16px;
+}
+
+.s131 form .inner-form .input-field input:-moz-placeholder {
+  color: #222;
+  font-size: 16px;
+}
+
+.s131 form .inner-form .input-field input::-webkit-input-placeholder {
+  color: #222;
+  font-size: 16px;
+}
+
+.s131 form .inner-form .input-field input:hover, .s131 form .inner-form .input-field input:focus {
+  box-shadow: none;
+  outline: 0;
+}
+
+.s131 form .inner-form .input-field.first-wrap {
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  background: #d9f1e3;
+}
+
+.s131 form .inner-form .input-field.first-wrap input {
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+}
+
+.s131 form .inner-form .input-field.first-wrap .svg-wrapper {
+  min-width: 80px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center;
+}
+
+.s131 form .inner-form .input-field.first-wrap svg {
+  width: 36px;
+  height: 36px;
+  fill: #222;
+}
+
+.s131 form .inner-form .input-field.second-wrap {
+  min-width: 216px;
+}
+
+.s131 form .inner-form .input-field.second-wrap .btn-search {
+  height: 100%;
+  width: 100%;
+  white-space: nowrap;
+  font-size: 16px;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  position: relative;
+  z-index: 0;
+  background: #00ad5f;
+  transition: all .2s ease-out, color .2s ease-out;
+  font-weight: 300;
+}
+
+.s131 form .inner-form .input-field.second-wrap .btn-search:hover {
+  background: #009451;
+}
+
+.s131 form .inner-form .input-field.second-wrap .btn-search:focus {
+  outline: 0;
+  box-shadow: none;
+}
+
+.s131 form .info {
+  font-size: 15px;
+  color: #ccc;
+  padding-left: 26px;
+}
+
+@media screen and (max-width: 992px) {
+  .s131 form .inner-form .input-field {
+    height: 50px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .s131 form .inner-form .input-field.first-wrap .svg-wrapper {
+    min-width: 40px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
+    -ms-flex-align: center;
+        align-items: center;
+    padding: 0 10px;
+  }
+  .s131 form .inner-form .input-field.first-wrap svg {
+    width: 26px;
+    height: 26px;
+    fill: #222;
+  }
+  .s131 form .inner-form .input-field.second-wrap {
+    min-width: 100px;
+  }
+  .s131 form .inner-form .input-field.second-wrap .btn-search {
+    font-size: 13px;
+  }
+}
+.back{
+    background-color: #d9f1e380;
+    border-radius: 10px;
+}
+.sel {
+    background-color: #00ad5f80;
+    color: #222;
+    border-radius: 10px;
+}
+
+</style>
+<script>
+    $( document ).ready(function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        let page = urlParams.get('page')
+        page = Number(page)
+        if ( page === 0 ){
+            page = 1
+        }
+
+        $(`#pageId-${page}`).addClass('active')
+        let query = urlParams.get('query')
+        $(`#search`).val(query)
+
+        let filter = urlParams.get('filter')
+        if (filter == null){
+            $('.sel').removeClass('sel')
+            $(`#id-All`).addClass('sel')
+        }
+        else{
+            filter = filter.replaceAll(" ", "-")
+            $('.sel').removeClass('sel')
+            $(`#id-${filter}`).addClass('sel')
+        }
+
+
+    });
+</script>
+<script type="text/javascript">
+    function filter (filter){
+        if (filter === 'All'){
+            const urlParams = new URLSearchParams(window.location.search);
+            urlParams.delete('filter')
+            urlParams.delete('page')
+            window.location.search = urlParams;
+            return
+        }
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.delete('page')
+        urlParams.set('filter', filter);
+        window.location.search = urlParams;
+    }
+    function pagination (page){
+
+        const urlParams = new URLSearchParams(window.location.search);
+        urlParams.set('page', page);
+        window.location.search = urlParams;
+    }
+    function next (){
+        const urlParams = new URLSearchParams(window.location.search);
+        let page = urlParams.get('page')
+        page = Number(page)
+        if ( page === 0 ){
+            page = 1
+        }
+        page = page + 1
+        urlParams.set('page', page);
+        window.location.search = urlParams;
+
+    }
+    function prev (){
+        const urlParams = new URLSearchParams(window.location.search);
+        let page = urlParams.get('page')
+        page = Number(page)
+        if ( page === 0 ){
+            page = 1
+        }
+        page = page - 1
+        urlParams.set('page', page);
+        window.location.search = urlParams;
+
+    }
+</script>
+</body>
+</html>
